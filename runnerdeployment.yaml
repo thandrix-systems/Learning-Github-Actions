@@ -1,6 +1,7 @@
 apiVersion: actions.summerwind.dev/v1alpha1
 kind: RunnerDeployment
 metadata:
+  namespace: thandrix-systems
   name: runnerdeploy
 spec:
   replicas: 1
