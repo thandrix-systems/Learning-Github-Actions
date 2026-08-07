@@ -1,5 +1,5 @@
 name: github-pipelines
-#It is just a comment
+#Adding a comment to test the pipeline
 
 on:
   push:
