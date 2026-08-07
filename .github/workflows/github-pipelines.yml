@@ -19,7 +19,7 @@ permissions:
 
 jobs:
   ci-pipeline:
-    uses: Thando77/reusable-workflows/.github/workflows/ci-pipelines.yml@main
+    uses: thandrix-systems/reusable-workflows/.github/workflows/ci-pipelines.yml@main
     with:
       run_codeql: true
       run_sonarqube: true
