@@ -1,5 +1,5 @@
 name: github-pipelines
-#Trigger workflow on pull request
+#Trigger workflow on pull request sure
 
 on:
   push:
