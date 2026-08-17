@@ -1,5 +1,5 @@
 name: github-pipelines
-#Trigger workflow on pull requests for quality gate checks and on push to main/dev/feature branches for CI/CD pipelines
+#Trigger workflow on pull requests for quality gate checks
 
 on:
   push:
