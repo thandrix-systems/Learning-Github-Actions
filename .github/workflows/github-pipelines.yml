@@ -1,5 +1,5 @@
 name: github-pipelines
-#Trigger workflow on pull requests for quality gate checks
+#Trigger workflow on pull requests
 
 on:
   push:
