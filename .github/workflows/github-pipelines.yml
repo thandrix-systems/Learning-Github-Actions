@@ -49,7 +49,16 @@ jobs:
           kubectl version
           kubectl get nodes
 
-      # - name: Deploy to Kubernetes
-      #   run: |
-      #     kubectl apply -f manifests/deployment.yaml
-      #     kubectl apply -f manifests/service.yaml    
+      - name: Install yq
+        run: |
+          sudo wget https://github.com/mikefarah/yq/releases/download/v4.30.6/yq_linux_amd64 -O /usr/local/bin/yq
+          sudo chmod +x /usr/local/bin/yq
+          yq --version
+          
+      - name: Update Deployment Image
+        run: |
+          IMAGE_TAGS="${{ github.run_id }}-${GITHUB_SHA::7}"
+          IMAGE="ghcr.io/thandrix_systems/thandrix_app:${IMAGE_TAGS}"
+
+          yq e ".spec.template.spec.containers[0].image = \"${IMAGE}\"" -i manifests/deployment.yaml
+          cat manifests/deployment.yaml
