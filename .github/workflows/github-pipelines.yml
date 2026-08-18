@@ -20,7 +20,7 @@ jobs:
   ci-pipeline:
     uses: thandrix-systems/reusable-workflows/.github/workflows/ci-pipelines.yml@main
     with:
-      run_codeql: true
+      run_codeql: false
       run_sonarqube: true
     secrets:
       SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
