@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: thandrix-springboot-deployment
+  labels:
+    app: thandrix-app
+spec:
+  replicas: 2    
+  selector:
+    matchLabels:
+      app: thandrix-app
+  template:
+    metadata:
+      labels:
+        app: thandrix-app
+    spec:
+      containers:
+        - name: thandrix-springboot
+          image: thandrixsystems/thandrix-springboot-app:latest
+          ports:
+            - containerPort: 8000
+          resources:
+            requests:
+              memory: "256Mi"
+              cpu: "250m"
+            limits:
+              memory: "512Mi"
+              cpu: "500m"          

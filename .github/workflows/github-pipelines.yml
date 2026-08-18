@@ -22,6 +22,7 @@ jobs:
     with:
       run_codeql: true
       run_sonarqube: true
+      run_publish_to_github_container_registry: true
     secrets:
       SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
       DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
