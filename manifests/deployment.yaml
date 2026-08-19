@@ -1,18 +1,18 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: thandrix_app
+  name: thandrix-app
   labels:
-    app: thandrix_app
+    app: thandrix-app
 spec:
   replicas: 2    
   selector:
     matchLabels:
-      app: thandrix_app
+      app: thandrix-app
   template:
     metadata:
       labels:
-        app: thandrix_app
+        app: thandrix-app
     spec:
       containers:
         - name: thandrix-springboot
