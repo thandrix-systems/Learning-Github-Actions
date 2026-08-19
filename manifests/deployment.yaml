@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: thandrix-springboot-deployment
+  name: thandrix_app
   labels:
     app: thandrix_app
 spec:
