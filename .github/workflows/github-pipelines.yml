@@ -6,9 +6,10 @@ on:
       - main
       - dev
       - feature/*
+      - deploy-using-kubectl
       
-  pull_request:
-    types: [opened, synchronize, reopened]
+  # pull_request:
+  #   types: [opened, synchronize, reopened]
 
 permissions:
   actions: read
@@ -28,7 +29,11 @@ jobs:
       DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
       DOCKERHUB_PASSWORD: ${{ secrets.DOCKERHUB_PASSWORD }}
 
-  deploy-to-kubernetes:
+  deploy-with-kubectl:
+    environment:
+      name: Integration
+    env:
+      NAMESPACE: ${{ vars.NAMESPACE}}  
     needs: ci-pipeline
     runs-on: arc-runner-set
     steps:
@@ -62,3 +67,12 @@ jobs:
 
           yq e ".spec.template.spec.containers[0].image = \"${IMAGE}\"" -i manifests/deployment.yaml
           cat manifests/deployment.yaml
+      - name: Create Namespace if not exists
+        run: |
+          kubectl get namespace $NAMESPACE || kubectl create namespace $NAMESPACE
+         
+      - name: Deploy to Kubernetes Cluster
+        run: |
+          kubectl apply -f manifests/deployment.yaml -n $NAMESPACE
+          kubectl rollout status deployment/thandrix-app -n $NAMESPACE
+          kubectl get all -n $NAMESPACE  
