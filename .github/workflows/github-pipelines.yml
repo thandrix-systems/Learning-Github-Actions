@@ -71,6 +71,15 @@ jobs:
       - name: Create Namespace if not exists
         run: |
           kubectl get namespace $NAMESPACE || kubectl create namespace $NAMESPACE
+
+      - name: Create GHCR image pull secret
+        run: |
+          kubectl create secret docker-registry ghcr-pull-secret \
+            --namespace "$NAMESPACE" \
+            --docker-server=ghcr.io \
+            --docker-username="${{ github.actor }}" \
+            --docker-password="${{ secrets.GITHUB_TOKEN }}" \
+            --dry-run=client -o yaml | kubectl apply -f -
          
       - name: Deploy to Kubernetes Cluster
         run: |

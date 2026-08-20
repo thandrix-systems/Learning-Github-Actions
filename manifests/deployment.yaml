@@ -4,6 +4,7 @@ metadata:
   name: thandrix-app
   labels:
     app: thandrix-app
+    
 spec:
   replicas: 1    
   selector:
@@ -14,6 +15,8 @@ spec:
       labels:
         app: thandrix-app
     spec:
+      imagePullSecrets:
+        - name: ghcr-pull-secret
       containers:
         - name: thandrix-springboot
           image: ghcr.io/thandrix_systems/thandrix_app:latest
