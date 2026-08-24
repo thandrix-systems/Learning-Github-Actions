@@ -2,6 +2,21 @@ name: github-pipelines
 #Let's add a comment to test the pipeline
 
 on:
+  workflow_dispatch:
+    inputs:
+      run_codeql:
+        description: 'Run CodeQL Analysis'
+        required: false
+        default: 'true'
+      run_sonarqube:
+        description: 'Run SonarQube Analysis'
+        required: false
+        default: 'true'
+      run_publish_to_github_container_registry:
+        description: 'Publish to GitHub Container Registry'
+        required: false
+        default: 'true'
+        
   push:
     branches:
       - main
