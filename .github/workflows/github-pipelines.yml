@@ -51,8 +51,7 @@ jobs:
     with:
       ENVIRONMENT: ${{ vars.ENVIRONMENT }}
       NAMESPACE: ${{ vars.NAMESPACE }}
-      IMAGE_NAME: ${{ vars.IMAGE_NAME }}
+      IMAGE_NAME: ghcr.io/thandrix-systems/thandrix_app
     secrets:
       KUBECONFIG: ${{ secrets.KUBECONFIG }}
-      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     
