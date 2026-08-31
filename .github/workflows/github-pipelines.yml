@@ -7,7 +7,7 @@ on:
       run_codeql:
         description: 'Run CodeQL Analysis'
         required: false
-        default: 'true'
+        default: 'false'
       run_sonarqube:
         description: 'Run SonarQube Analysis'
         required: false
@@ -37,7 +37,7 @@ jobs:
   ci-pipeline:
     uses: thandrix-systems/reusable-workflows/.github/workflows/ci-pipelines.yml@main
     with:
-      run_codeql: true
+      run_codeql: false
       run_sonarqube: true
       run_publish_to_github_container_registry: true
     secrets:
