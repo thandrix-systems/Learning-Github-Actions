@@ -16,10 +16,10 @@ spec:
         app: thandrix-app
     spec:
       imagePullSecrets:
-        - name: ghcr-pull-secret
+        - name: dockerhub-pull-secret
       containers:
         - name: thandrix-springboot
-          image: ghcr.io/thandrix_systems/thandrix_app:latest
+          image: docker.io/thandrixsystems/thandrix_app:latest
           imagePullPolicy: Always
           ports:
             - containerPort: 8000

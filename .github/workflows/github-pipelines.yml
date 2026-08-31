@@ -51,7 +51,6 @@ jobs:
     with:
       ENVIRONMENT: ${{ vars.ENVIRONMENT }}
       NAMESPACE: ${{ vars.NAMESPACE }}
-      IMAGE_NAME: ghcr.io/thandrix-systems/thandrix_app
-    secrets:
-      KUBECONFIG: ${{ secrets.KUBECONFIG }}
+      IMAGE_NAME: ${{ vars.IMAGE_NAME }}
+    secrets: inherit
     
