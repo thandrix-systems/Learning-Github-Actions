@@ -73,4 +73,11 @@ jobs:
       - name: Run Selenium tests
         run: |
           mvn -B -Dtest=SeleniumTest test
+
+      - name: Upload Selenium test results
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: selenium-test-results
+          path: target/surefire-reports/*.xml
     
