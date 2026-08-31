@@ -53,4 +53,24 @@ jobs:
       NAMESPACE: ${{ vars.NAMESPACE }}
       IMAGE_NAME: ${{ vars.IMAGE_NAME }}
     secrets: inherit
+
+  selenium-tests:
+    needs: deploy
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up JDK
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - name: Verify Chrome version
+        run: google-chrome --version
+
+      - name: Run Selenium tests
+        run: |
+          mvn -B -Dtest=SeleniumTest test
     
