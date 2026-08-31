@@ -49,9 +49,9 @@ jobs:
     needs: ci-pipeline
     uses: thandrix-systems/reusable-workflows/.github/workflows/deploy-with-kubectl.yml@main
     with:
-      ENVIRONMENT: ${{ vars.ENVIRONMENT }}
-      NAMESPACE: ${{ vars.NAMESPACE }}
-      IMAGE_NAME: ${{ vars.IMAGE_NAME }}
+      ENVIRONMENT: ${{ vars.ENVIRONMENT || 'development' }}
+      NAMESPACE: ${{ vars.NAMESPACE || 'default' }}
+      IMAGE_NAME: ${{ vars.IMAGE_NAME || 'docker.io/thandrixsystems/thandrix_app' }}
     secrets: inherit
 
   selenium-tests:
