@@ -55,7 +55,7 @@ jobs:
     secrets: inherit
 
   selenium-tests:
-    needs: deploy
+    needs: ci-pipeline
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
