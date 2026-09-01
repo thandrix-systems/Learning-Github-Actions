@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: thandrix-app
+  labels:
+    app: thandrix-app
+    
+spec:
+  replicas: 1    
+  selector:
+    matchLabels:
+      app: thandrix-app
+  template:
+    metadata:
+      labels:
+        app: thandrix-app
+    spec:
+      imagePullSecrets:
+        - name: dockerhub-pull-secret
+      containers:
+        - name: thandrix-springboot
+          image: docker.io/thandrixsystems/thandrix_app:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8000
+          resources:
+            requests:
+              memory: "256Mi"
+              cpu: "250m"
+            limits:
+              memory: "512Mi"
+              cpu: "500m"          

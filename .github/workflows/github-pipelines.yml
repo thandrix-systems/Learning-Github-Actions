@@ -1,12 +1,28 @@
 name: github-pipelines
-#Adding a comment to test the pipeline again
+#Let's add a comment to test the pipeline
 
 on:
+  workflow_dispatch:
+    inputs:
+      run_codeql:
+        description: 'Run CodeQL Analysis'
+        required: false
+        default: 'false'
+      run_sonarqube:
+        description: 'Run SonarQube Analysis'
+        required: false
+        default: 'true'
+      run_publish_to_github_container_registry:
+        description: 'Publish to GitHub Container Registry'
+        required: false
+        default: 'true'
+        
   push:
     branches:
       - main
       - dev
       - feature/*
+      - deploy-using-kubectl
       
   # pull_request:
   #   types: [opened, synchronize, reopened]
@@ -21,9 +37,47 @@ jobs:
   ci-pipeline:
     uses: thandrix-systems/reusable-workflows/.github/workflows/ci-pipelines.yml@main
     with:
-      run_codeql: true
+      run_codeql: false
       run_sonarqube: true
+      run_publish_to_github_container_registry: true
     secrets:
       SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
       DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
       DOCKERHUB_PASSWORD: ${{ secrets.DOCKERHUB_PASSWORD }}
+
+  deploy:
+    needs: ci-pipeline
+    uses: thandrix-systems/reusable-workflows/.github/workflows/deploy-with-kubectl.yml@main
+    with:
+      ENVIRONMENT: Integration
+      NAMESPACE: ${{ vars.NAMESPACE || 'default' }}
+      IMAGE_NAME: ${{ vars.IMAGE_NAME || 'docker.io/thandrix-systems/thandrix_app' }}
+    secrets: inherit
+
+  selenium-tests:
+    needs: ci-pipeline
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up JDK
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - name: Verify Chrome version
+        run: google-chrome --version
+
+      - name: Run Selenium tests
+        run: |
+          mvn -B -Dtest=SeleniumTest test
+
+      - name: Upload Selenium test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: selenium-test-results
+          path: target/surefire-reports/*.xml
+    
